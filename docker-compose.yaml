@@ -1,0 +1,9 @@
+reverse-proxy:
+  image: nginx:latest
+  ports:
+    - "80:80"
+  volumes:
+    - ./nginx.conf.template:/etc/nginx/conf.d/reverse_proxy.template
+  environment:
+    - DOCKER_IP=${DOCKER_IP}
+  command: /bin/bash -c "envsubst '$$DOCKER_IP' < /etc/nginx/conf.d/reverse_proxy.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
